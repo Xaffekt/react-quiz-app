@@ -12,15 +12,7 @@ function App() {
 
   const [start, setStart] = React.useState(false)
   const [questions, setQuestions] = React.useState(data)
-  const [formData, setFormData] = React.useState(
-    {
-      firstAns: "",
-      secondAns: "",
-      thirdAns: "",
-      fourthAns: "",
-      fithAns: ""
-    }
-  )
+  const [formData, setFormData] = React.useState(["", "", "", "", ""])
 
 
 // //  api call to initialize question state
@@ -37,16 +29,13 @@ function App() {
     setStart(true)
   }
 
-  function handleChange(event) {
-    console.log(event.target)
-    const {name, value, type, checked} = event.target
-    setFormData(prevFormData => {
-         return {
-             ...prevFormData,
-             [name]: type === "checkbox" ? checked : value
-         }
-     })
-}
+  function handleChange(answer, index) {
+      setFormData(prev => {
+        let arr = [...prev]
+        arr[index] = answer
+        return arr
+      })
+    }
 
 function shuffleAnswers(array) { 
   for (let i = array.length - 1; i > 0; i--) { 
@@ -56,22 +45,20 @@ function shuffleAnswers(array) {
   return array
 } 
 
-// const questionArr = questions.map((question) => {
-//   return (<Question
-//             key={nanoid()}
-//             formData={formData} 
-//             question={question} 
-//             handleChange={handleChange}
-//             name={}
-//           />)
-// })
+const questionArr = questions.map((question, index) => {
+  return (<Question
+            key={nanoid()}
+            questionNum={index}
+            formData={formData} 
+            question={question} 
+            handleChange={handleChange}
+          />)
+})
 
 function handleSubmit(event) {
   event.preventDefault()
-  console.log(event.target)
+  console.log(formData)
 }
-
-console.log(formData)
 
   return (
     <>
@@ -79,51 +66,8 @@ console.log(formData)
         {!start && <Cover handleStart={startQuiz}/>}
         { start &&
           <form onSubmit={event => handleSubmit(event)}>
-            <Question
-              key={nanoid()}
-              formData={formData}
-              question={questions[0]}
-              handleChange={handleChange}
-              questionName="firstAns"
-              shuffle={shuffleAnswers}
-            />
-
-            <Question
-              key={nanoid()}
-              formData={formData}
-              question={questions[1]}
-              handleChange={handleChange}
-              questionName="secondAns"
-              shuffle={shuffleAnswers}
-            />
-
-            <Question
-              key={nanoid()}
-              formData={formData}
-              question={questions[2]}
-              handleChange={handleChange}
-              questionName="thirdAns"
-              shuffle={shuffleAnswers}
-            />
-
-            <Question
-              key={nanoid()}
-              formData={formData}
-              question={questions[3]}
-              handleChange={handleChange}
-              questionName="fourthAns"
-              shuffle={shuffleAnswers}
-            />
-
-            <Question
-              key={nanoid()}
-              formData={formData}
-              question={questions[4]}
-              handleChange={handleChange}
-              questionName="fithAns"
-              shuffle={shuffleAnswers}
-            />
-            <button className="main--btn">Check answers</button>
+            {questionArr}
+            <button className="main-btn">Check answers</button>
           </form>
         }
       </main>
