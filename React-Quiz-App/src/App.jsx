@@ -11,18 +11,18 @@ import {data} from "./data.js"
 function App() {
 
   const [start, setStart] = React.useState(false)
-  const [questions, setQuestions] = React.useState(data)
-  const [formData, setFormData] = React.useState(["", "", "", "", ""])
+  const [triviaData, setTriviaData] = React.useState(data)
+  const [answers ,setAnswers] = React.useState(new Array(triviaData.length))
 
+//  api call to initialize question state
+  React.useEffect(() => {
+    // fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     setQuestions(data.results)
+    //   })
 
-// //  api call to initialize question state
-//   React.useEffect(() => {
-//     fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
-//       .then(res => res.json())
-//       .then(data => {
-//         setQuestions(data.results)
-//       })
-//   },[])
+  },[])
 
   function startQuiz() {
     console.log("start quiz")
@@ -30,35 +30,41 @@ function App() {
   }
 
   function handleChange(answer, index) {
-      setFormData(prev => {
-        let arr = [...prev]
-        arr[index] = answer
-        return arr
-      })
-    }
-
-function shuffleAnswers(array) { 
-  for (let i = array.length - 1; i > 0; i--) { 
-    const j = Math.floor(Math.random() * (i + 1)); 
-    [array[i], array[j]] = [array[j], array[i]]; 
+    setAnswers(prev => {
+      let arr = [...prev]
+      arr[index] = answer
+      return arr
+    })
+    console.log(answers)
   }
-  return array
-} 
 
-const questionArr = questions.map((question, index) => {
-  return (<Question
-            key={nanoid()}
-            questionNum={index}
-            formData={formData} 
-            question={question} 
-            handleChange={handleChange}
-          />)
-})
+    function shuffleArray(array) { 
+      for (let i = array.length - 1; i > 0; i--) { 
+        const j = Math.floor(Math.random() * (i + 1)); 
+        [array[i], array[j]] = [array[j], array[i]]; 
+      }
+      return array
+    } 
 
-function handleSubmit(event) {
-  event.preventDefault()
-  console.log(formData)
-}
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    console.log(answers)
+  }
+
+    const questionArr = triviaData.map((data, index) => {
+      const choices = [...data.incorrect_answers, data.correct_answer]
+  
+      return (<Question
+                key={nanoid()}
+                questionNum={index} 
+                question={data.question} 
+                handleChange={handleChange}
+                choices={shuffleArray(choices)}
+                answer={answers[index]}
+              />)
+    })
+
 
   return (
     <>

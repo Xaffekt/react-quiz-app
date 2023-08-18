@@ -1,43 +1,40 @@
 import React from "react"
 
-export default function Question({formData, question, handleChange, questionNum}) {
-
-
-    const answers = [...question.incorrect_answers, question.correct_answer]
-    
+export default function Question(props) {
+    const { question, handleChange, questionNum, choices, answer} = props
     return(
         <>
             <fieldset>
                 {/* Question 1 */}
-                <p className="question--text">{question.question}</p>
+                <p className="question--text">{question}</p>
 
                 {/* Choice 1 */}
-                <input type="radio" id={answers[0]} value={answers[0]} name={answers[1]}
-                    checked={formData[questionNum] === answers[0]}
-                    onChange={() => handleChange(answers[0], questionNum)}
+                <input type="radio" id={choices[0]} value={choices[0]} name={choices[0]}
+                    checked={answer === choices[0]}
+                    onChange={() => handleChange(choices[0], questionNum)}
                 />
-                <label htmlFor={answers[0]}>{answers[0]}</label>
+                <label htmlFor={choices[0]}>{choices[0]}</label>
 
                 {/* Choice 2 */}
-                <input type="radio" id={answers[1]} value={answers[1]} name={answers[1]}
-                    checked={formData[questionNum] === answers[1]}
-                    onChange={() => handleChange(answers[1], questionNum)}
+                <input type="radio" id={choices[1]} value={choices[1]} name={choices[1]}
+                    checked={answer === choices[1]}
+                    onChange={() => handleChange(choices[1], questionNum)}
                 />
-                <label htmlFor={answers[1]}>{answers[1]}</label>
+                <label htmlFor={choices[1]}>{choices[1]}</label>
 
                 {/* Choice 3 */}
-                <input type="radio" id={answers[2]} value={answers[2]} name={answers[2]}
-                    checked={formData[questionNum] === answers[2]}
-                    onChange={() => handleChange(answers[2], questionNum)}
+                <input type="radio" id={choices[2]} value={choices[2]} name={choices[2]}
+                    checked={answer === choices[2]}
+                    onChange={() => handleChange(choices[2], questionNum)}
                 />
-                <label htmlFor={answers[2]}>{answers[2]}</label>
+                <label htmlFor={choices[2]}>{choices[2]}</label>
 
                 {/* Choice 4 */}
-                <input type="radio" id={answers[3]} value={answers[3]} name={answers[3]}
-                    checked={formData[questionNum] === answers[3]}
-                    onChange={() => handleChange(answers[3], questionNum)}
+                <input type="radio" id={choices[3]} value={choices[3]} name={choices[3]}
+                    checked={answer === choices[3]}
+                    onChange={() => handleChange(choices[3], questionNum)}
                 />
-                <label htmlFor={answers[3]}>{answers[3]}</label>
+                <label htmlFor={choices[3]}>{choices[3]}</label>
             </fieldset> 
         </>
     )
