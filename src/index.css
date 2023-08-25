@@ -66,4 +66,8 @@ h2 {
   font-size: 11px;
 }
 
+.user-select {
+  border: 1px solid #1C1C1C;
+}
+
 
