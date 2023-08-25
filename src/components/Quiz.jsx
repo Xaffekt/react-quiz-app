@@ -6,14 +6,18 @@ import he from "he"
 
 export default function Quiz({data, startNewQuiz}) {
     const [correctAnswers, setCorrectAnswers] = useState(generateCorrectAnswers(data))
-    const [selectedAnswers, setSelectedAnswers] = useState(new Array(data.length))
-    console.log(correctAnswers)
+    const [selectedAnswers, setSelectedAnswers] = useState()
+    const [buttonDisable, setButtonDisable] = useState(true)
+    const refDisable = useRef()
+    console.log(selectedAnswers)
 
 
-    // useEffect(() => {
-    //     setSelectedAnswers(new Array(data.length))
-    //     setCorrectAnswers(generateCorrectAnswers(data))
-    // }, [data] )
+    useEffect(() => {
+        setSelectedAnswers(Array(data.length).fill(""))
+        setCorrectAnswers(generateCorrectAnswers(data))
+    }, [startNewQuiz] )
+
+
 
     function handleSelect(event) {
         const {name, value} = event.target
@@ -22,7 +26,11 @@ export default function Quiz({data, startNewQuiz}) {
             array[name] = value
             return array
         })
-        console.log(selectedAnswers)
+        
+
+        //Enables check answers button if each question has a selected answer
+        const isFilled = selectedAnswers.every((element => element !== ""))
+        isFilled ? refDisable.current.removeAttribute("disabled") : null
     }
 
     function handleSubmit(event) {
@@ -55,7 +63,7 @@ export default function Quiz({data, startNewQuiz}) {
         <div className="quiz-container">
             <form onSubmit={e => {handleSubmit(e)}}>
                 {questionElements}
-                <button className="cta-btn">check answers</button>
+                <button className="cta-btn" ref={refDisable} disabled={true}>check answers</button>
             </form>
         </div>
     )
