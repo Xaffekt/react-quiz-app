@@ -12,11 +12,11 @@ export default function App() {
   const [triviaData, setTriviaData] = useState()
   
   const questionAmount = 5
-//  api call to initialize question state
 
+
+//calls API each time newQuiz changes
   useEffect(() => {
     setTriviaData(data)
-    console.log(data)
     console.log("data change")
   }, [newQuiz])
 

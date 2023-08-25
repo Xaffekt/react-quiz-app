@@ -6,23 +6,33 @@ import he from "he"
 
 export default function Quiz({data, startNewQuiz}) {
     const [correctAnswers, setCorrectAnswers] = useState(generateCorrectAnswers(data))
-    const [shuffledAnswers, setShuffledAnswers] = useState([])
     const [selectedAnswers, setSelectedAnswers] = useState(new Array(data.length))
-        console.log(correctAnswers)
+    console.log(correctAnswers)
 
-    useEffect(() => {
 
-    }, [data] )
+    // useEffect(() => {
+    //     setSelectedAnswers(new Array(data.length))
+    //     setCorrectAnswers(generateCorrectAnswers(data))
+    // }, [data] )
 
-    function handleSelect(answer, index) {
+    function handleSelect(event) {
+        const {name, value} = event.target
         setSelectedAnswers(prev => {
             let array = prev
-            array[index] = answer
+            array[name] = value
             return array
         })
         console.log(selectedAnswers)
     }
+
+    function handleSubmit(event) {
+        event.preventDefault()
+        console.log("sumbit")
+        console.log(`user: ${selectedAnswers}`)
+        console.log(`correct: ${correctAnswers}`)
+    }
     
+    //Creates <Question /> array
     const questionElements = data.map((element, index) => {
         //decodes answers
         const formatedAnswers = [he.decode(element.correct_answer)]
@@ -41,8 +51,10 @@ export default function Quiz({data, startNewQuiz}) {
 
     return(
         <div className="quiz-container">
-            {questionElements}
-            <button className="cta-btn">check answers</button>
+            <form onSubmit={e => {handleSubmit(e)}}>
+                {questionElements}
+                <button className="cta-btn">check answers</button>
+            </form>
         </div>
     )
 }
