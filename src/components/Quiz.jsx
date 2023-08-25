@@ -7,9 +7,7 @@ import he from "he"
 export default function Quiz({data, startNewQuiz}) {
     const [correctAnswers, setCorrectAnswers] = useState(generateCorrectAnswers(data))
     const [selectedAnswers, setSelectedAnswers] = useState()
-    const [buttonDisable, setButtonDisable] = useState(true)
     const refDisable = useRef()
-    console.log(selectedAnswers)
 
 
     useEffect(() => {
@@ -27,7 +25,6 @@ export default function Quiz({data, startNewQuiz}) {
             return array
         })
         
-
         //Enables check answers button if each question has a selected answer
         const isFilled = selectedAnswers.every((element => element !== ""))
         isFilled ? refDisable.current.removeAttribute("disabled") : null
@@ -35,9 +32,13 @@ export default function Quiz({data, startNewQuiz}) {
 
     function handleSubmit(event) {
         event.preventDefault()
-        console.log("sumbit")
-        console.log(`user: ${selectedAnswers}`)
-        console.log(`correct: ${correctAnswers}`)
+        let score = 0
+        selectedAnswers.forEach((selectedAnswer, index) => {
+            if(selectedAnswer == correctAnswers[index]) {
+                score++
+            }
+        })
+        console.log(`You scored ${score}/${correctAnswers.length} correct answers`)
     }
     
     //Creates <Question /> array
