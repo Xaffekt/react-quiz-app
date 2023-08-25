@@ -7,13 +7,14 @@ body {
   margin: 0;
   padding: 1em;
   font-family: 'Inter';
+  background: url("./assets/intro-page.png");
+  background-size: cover;
 }
 
 main {
-  background: url("./assets/intro-page.png");
-  background-size: cover;
-  width: 550px;
-  height: 550px;
+
+  max-width: 1000px;
+  max-height: 1000px;
   margin: 0 auto;
   color: #293264;
 
@@ -48,7 +49,7 @@ h2 {
 }
 
 .question-container {
-  margin: 0 0 1em;
+  margin: 0 0 3em;
 }
 
 .answer-container {
@@ -59,13 +60,20 @@ h2 {
   align-items: center;
 }
 
-.answer {
-  background-color: #76767641;
-  border-radius: 10px;
+label {
+  border-radius: 7.942px;
+  border: 0.794px solid #4D5B9E;
   padding: 0.5em 1em;
-  font-size: 11px;
-  user-select: none;
+  font-size: .8rem;
   cursor: pointer;
+}
+
+input[type="radio"]:checked + label  {
+  background: #D6DBF5;
+}
+
+input {
+  display: none;
 }
 
 .user-select {

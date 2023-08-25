@@ -34,7 +34,8 @@ export default function Quiz({data, startNewQuiz}) {
     
     //Creates <Question /> array
     const questionElements = data.map((element, index) => {
-        //decodes answers
+        
+        //decodes and groups answers into array
         const formatedAnswers = [he.decode(element.correct_answer)]
         element.incorrect_answers.forEach((element) => {formatedAnswers.push(he.decode(element))})
 
@@ -43,8 +44,9 @@ export default function Quiz({data, startNewQuiz}) {
                 key={nanoid()}
                 questionNumber={index}
                 handleSelect={handleSelect}
-                question={element.question}
+                question={he.decode(element.question)}
                 answers={formatedAnswers}
+                correctAnswers={correctAnswers}
             />
         )
     })
