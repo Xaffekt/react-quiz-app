@@ -36,7 +36,7 @@ export default function App() {
               <button onClick={() => setStart(prev => !prev)} className="cta-btn">Start quiz</button>
             </div>
           :
-            <Quiz data={triviaData} startNewQuiz={startNewQuiz}/>
+            <Quiz data={triviaData} startNewQuiz={startNewQuiz} newQuiz={newQuiz}/>
         }
       </main>
     </>

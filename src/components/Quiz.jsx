@@ -4,16 +4,20 @@ import Question from "./Question"
 import { generateCorrectAnswers } from "../../utils"
 import he from "he"
 
-export default function Quiz({data, startNewQuiz}) {
+export default function Quiz({data, startNewQuiz, newQuiz}) {
     const [correctAnswers, setCorrectAnswers] = useState(generateCorrectAnswers(data))
     const [selectedAnswers, setSelectedAnswers] = useState()
+    const [scoreText, setScoreText] = useState()
+    const [buttonText, setButtonText] = useState("check answers")
     const refDisable = useRef()
 
 
     useEffect(() => {
         setSelectedAnswers(Array(data.length).fill(""))
         setCorrectAnswers(generateCorrectAnswers(data))
-    }, [startNewQuiz] )
+     
+        console.log(`RESET`)
+    }, [newQuiz] )
 
 
 
@@ -28,7 +32,9 @@ export default function Quiz({data, startNewQuiz}) {
         //Enables check answers button if each question has a selected answer
         const isFilled = selectedAnswers.every((element => element !== ""))
         isFilled ? refDisable.current.removeAttribute("disabled") : null
+        console.log(selectedAnswers)
     }
+    
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -38,9 +44,10 @@ export default function Quiz({data, startNewQuiz}) {
                 score++
             }
         })
-        console.log(`You scored ${score}/${correctAnswers.length} correct answers`)
+        setScoreText(`You scored ${score}/${correctAnswers.length} correct answers`)
+        setButtonText("new quiz")
     }
-    
+
     //Creates <Question /> array
     const questionElements = data.map((element, index) => {
         
@@ -64,7 +71,18 @@ export default function Quiz({data, startNewQuiz}) {
         <div className="quiz-container">
             <form onSubmit={e => {handleSubmit(e)}}>
                 {questionElements}
-                <button className="cta-btn" ref={refDisable} disabled={true}>check answers</button>
+                <div>
+                    <h3 className="score">
+                        {scoreText}
+                    </h3>
+                    <button 
+                        className="cta-btn" 
+                        ref={refDisable} 
+                        disabled={true}
+                    >
+                        {buttonText}
+                    </button>
+                </div>
             </form>
         </div>
     )
